@@ -1,17 +1,21 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
+import axios from 'axios'
+
 
 const Pokemon = () => {
     const [pokemons,setPokemons] = useState([]);
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=807")
-          .then(response => {
-            // not the actual JSON response body but the entire HTTP response
-            return response.json();
-        }).then(response => {
-            // we now run another promise to parse the HTTP response into usable JSON
-            setPokemons(response.results);
-        }).catch(err=>{
-            console.log(err);
-        });
+    useEffect (() => {
+        axios.get("https://pokeapi.co/api/v2/pokemon?limit=807")
+            
+            .then((response) => {
+        
+        
+                setPokemons(response.data.results);
+        })
+            .catch(err=>{
+                console.log(err);
+        })
+    },[]);
   return (
     <div>
         <ul>{
@@ -22,4 +26,4 @@ const Pokemon = () => {
   )
 }
 
-export default Pokemon
+export default Pokemon;
